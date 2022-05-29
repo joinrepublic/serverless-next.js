@@ -33,14 +33,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/serverless-nextjs/serverless-next.js"
+    "url": "https://github.com/joinrepublic/serverless-next.js"
   },
   "author": "Daniel Conde Marin <danielconde9@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/serverless-nextjs/serverless-next.js/issues"
+    "url": "https://github.com/joinrepublic/serverless-next.js/issues"
   },
-  "homepage": "https://github.com/serverless-nextjs/serverless-next.js#readme",
+  "homepage": "https://github.com/joinrepublic/serverless-next.js#readme",
   "devDependencies": {
     "@babel/core": "7.17.5",
     "@babel/plugin-proposal-class-properties": "^7.16.7",
