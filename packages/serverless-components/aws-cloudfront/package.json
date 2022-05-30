@@ -3,9 +3,6 @@
   "version": "3.7.0",
   "main": "./serverless.js",
   "types": "dist/component.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "test": "jest",
     "lint": "eslint . --fix --cache",

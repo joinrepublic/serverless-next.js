@@ -1,8 +1,5 @@
 {
   "name": "@sls-next/serverless-plugin",
-  "publishConfig": {
-    "access": "public"
-  },
   "version": "3.5.0-alpha.10",
   "description": "A serverless plugin for nextjs 8 serverless target",
   "main": "index.js",

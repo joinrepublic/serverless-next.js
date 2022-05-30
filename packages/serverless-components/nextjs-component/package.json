@@ -1,8 +1,5 @@
 {
   "name": "@sls-next/serverless-component",
-  "publishConfig": {
-    "access": "public"
-  },
   "version": "3.8.0-alpha.0",
   "description": "Serverless Next.js powered by Serverless Components",
   "main": "./serverless.js",

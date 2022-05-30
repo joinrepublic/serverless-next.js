@@ -2,9 +2,6 @@
   "name": "@sls-next/cloudfront",
   "version": "3.7.0",
   "description": "Handles CloudFront invalidation",
-  "publishConfig": {
-    "access": "public"
-  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "directories": {
