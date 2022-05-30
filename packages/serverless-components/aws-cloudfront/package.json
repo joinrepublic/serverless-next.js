@@ -1,11 +1,8 @@
 {
   "name": "@sls-next/aws-cloudfront",
-  "version": "3.7.0",
+  "version": "3.8.0-alpha.0-republic",
   "main": "./serverless.js",
   "types": "dist/component.d.ts",
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "test": "jest",
     "lint": "eslint . --fix --cache",
