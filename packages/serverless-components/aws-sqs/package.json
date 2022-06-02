@@ -1,6 +1,6 @@
 {
   "name": "@sls-next/aws-sqs",
-  "version": "3.8.0-alpha.0-republic",
+  "version": "3.8.0-alpha.0-republic.1",
   "main": "serverless.js",
   "scripts": {
     "test": "jest"

@@ -1,7 +1,7 @@
 {
   "name": "@sls-next/cdk-construct",
   "description": "Serverless Next.js powered by AWS CDK",
-  "version": "3.8.0-alpha.0-republic",
+  "version": "3.8.0-alpha.0-republic.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "author": "Henry Kirkness <henry@planes.studio>",
