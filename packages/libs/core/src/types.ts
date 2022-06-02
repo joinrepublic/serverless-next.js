@@ -2,7 +2,7 @@
 import { IncomingHttpHeaders, IncomingMessage, ServerResponse } from "http";
 
 export type Header = {
-  key?: string;
+  key: string;
   value: string;
 };
 
@@ -36,6 +36,7 @@ export type RedirectData = {
 export type RewriteData = {
   source: string;
   destination: string;
+  headers?: Header[];
 };
 
 export type DynamicRoute = {

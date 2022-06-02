@@ -1,4 +1,4 @@
-import { getRewritePath, isExternalRewrite } from "../../src/route/rewrite";
+import { getRewrite, isExternalRewrite } from "../../src/route/rewrite";
 import { PageManifest, RoutesManifest } from "../../src/types";
 
 const buildPageManifest = ({
@@ -44,7 +44,7 @@ const buildRoutesManifest = ({
 };
 
 describe("Rewriter Tests", () => {
-  describe("getRewritePath()", () => {
+  describe("getRewrite()", () => {
     describe("basic rewrites", () => {
       let routesManifest: RoutesManifest;
       let pageManifest: PageManifest;
@@ -129,17 +129,12 @@ describe("Rewriter Tests", () => {
             },
             uri: path
           };
-          const rewrite = getRewritePath(
-            req,
-            path,
-            routesManifest,
-            pageManifest
-          );
+          const rewrite = getRewrite(req, path, routesManifest, pageManifest);
 
           if (expectedRewrite) {
-            expect(rewrite).toEqual(expectedRewrite);
+            expect(rewrite?.destination).toEqual(expectedRewrite);
           } else {
-            expect(rewrite).toBeUndefined();
+            expect(rewrite?.destination).toBeUndefined();
           }
         }
       );
@@ -254,17 +249,12 @@ describe("Rewriter Tests", () => {
             }
           });
 
-          const rewrite = getRewritePath(
-            req,
-            path,
-            routesManifest,
-            pageManifest
-          );
+          const rewrite = getRewrite(req, path, routesManifest, pageManifest);
 
           if (expectedRewrite) {
-            expect(rewrite).toEqual(expectedRewrite);
+            expect(rewrite?.destination).toEqual(expectedRewrite);
           } else {
-            expect(rewrite).toBeUndefined();
+            expect(rewrite?.destination).toBeUndefined();
           }
         }
       );

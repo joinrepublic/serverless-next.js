@@ -6,14 +6,16 @@ import {
 } from "./locale";
 import { matchDynamicRoute } from "../match";
 import { notFoundPage } from "./notfound";
-import { getRewritePath, isExternalRewrite } from "./rewrite";
+import { getRewrite, isExternalRewrite } from "./rewrite";
 import {
   ExternalRoute,
   PageManifest,
   PageRoute,
   RoutesManifest,
   Request,
-  ApiRoute
+  ApiRoute,
+  Header,
+  Headers
 } from "../types";
 
 const pageHtml = (localeUri: string) => {
@@ -21,6 +23,13 @@ const pageHtml = (localeUri: string) => {
     return "pages/index.html";
   }
   return `pages${localeUri}.html`;
+};
+
+const convertToHeadersMap = (headers: Header[]) => {
+  return headers.reduce((acc: Headers, header) => {
+    acc[header.key] = [header];
+    return acc;
+  }, {});
 };
 
 export const handlePageReq = (
@@ -125,15 +134,18 @@ export const handlePageReq = (
     }
   }
 
-  const rewrite =
-    !isRewrite && getRewritePath(req, uri, routesManifest, manifest);
+  const rewrite = !isRewrite && getRewrite(req, uri, routesManifest, manifest);
   if (rewrite) {
-    const [path, querystring] = rewrite.split("?");
+    const [path, querystring] = rewrite.destination.split("?");
     if (isExternalRewrite(path)) {
+      const customHeaders =
+        rewrite.headers && convertToHeadersMap(rewrite.headers);
+
       return {
         isExternal: true,
         path,
-        querystring
+        querystring,
+        headers: customHeaders
       };
     }
     const route = handlePageReq(

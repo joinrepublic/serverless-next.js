@@ -3,18 +3,20 @@ import { compileDestination, matchPath } from "../match";
 import { PageManifest, Request, RewriteData, RoutesManifest } from "../types";
 import { handlePageReq } from "../route/page";
 
+type Rewrite = Pick<RewriteData, "destination" | "headers">;
+
 /**
  * Get the rewrite of the given path, if it exists.
  * @param uri
  * @param pageManifest
  * @param routesManifest
  */
-export function getRewritePath(
+export function getRewrite(
   req: Request,
   uri: string,
   routesManifest: RoutesManifest,
   pageManifest?: PageManifest
-): string | undefined {
+): Rewrite | undefined {
   const path = addDefaultLocaleToPath(
     uri,
     routesManifest,
@@ -72,10 +74,11 @@ export function getRewritePath(
 
     if (querystring) {
       const separator = destination.includes("?") ? "&" : "?";
-      return `${destination}${separator}${querystring}`;
+      const destinationWithQuery = `${destination}${separator}${querystring}`;
+      return { destination: destinationWithQuery, headers: rewrite.headers };
     }
 
-    return destination;
+    return { destination, headers: rewrite.headers };
   }
 }
 

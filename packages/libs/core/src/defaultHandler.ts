@@ -43,16 +43,27 @@ const perfLogger = (logLambdaExecutionTimes?: boolean): PerfLogger => {
   };
 };
 
-const createExternalRewriteResponse = async (
-  customRewrite: string,
-  req: IncomingMessage,
-  res: ServerResponse,
-  platformClient: PlatformClient,
-  body?: string
-): Promise<void> => {
+const createExternalRewriteResponse = async ({
+  route,
+  req,
+  res,
+  body
+}: {
+  route: ExternalRoute;
+  req: IncomingMessage;
+  res: ServerResponse;
+  body?: string;
+}): Promise<void> => {
   // Set request headers
-  const reqHeaders: any = {};
+  const reqHeaders: any = req.headers;
   Object.assign(reqHeaders, req.headers);
+
+  const rewriteHeaders = route.headers;
+  if (rewriteHeaders) {
+    Object.values(rewriteHeaders).forEach(([header]) => {
+      reqHeaders[header.key] = header.value;
+    });
+  }
 
   // Delete host header otherwise request may fail due to host mismatch
   if (reqHeaders.hasOwnProperty("host")) {
@@ -63,7 +74,7 @@ const createExternalRewriteResponse = async (
   if (body) {
     const decodedBody = Buffer.from(body, "base64").toString("utf8");
 
-    fetchResponse = await fetch(customRewrite, {
+    fetchResponse = await fetch(route.path, {
       headers: reqHeaders,
       method: req.method,
       body: decodedBody, // Must pass body as a string
@@ -71,7 +82,7 @@ const createExternalRewriteResponse = async (
       redirect: "manual"
     });
   } else {
-    fetchResponse = await fetch(customRewrite, {
+    fetchResponse = await fetch(route.path, {
       headers: reqHeaders,
       method: req.method,
       compress: false,
@@ -89,8 +100,7 @@ const createExternalRewriteResponse = async (
 const externalRewrite = async (
   req: IncomingMessage,
   res: ServerResponse,
-  rewrite: string,
-  platformClient: PlatformClient
+  route: ExternalRoute
 ): Promise<void> => {
   const querystring = req.url?.includes("?") ? req.url?.split("?") : "";
   let body = "";
@@ -98,13 +108,18 @@ const externalRewrite = async (
   req.on("data", (chunk) => {
     body += chunk.toString();
   });
-  await createExternalRewriteResponse(
-    rewrite + (querystring ? "?" : "") + querystring,
+
+  const pathWithQueryString =
+    route.path + (querystring ? "?" : "") + querystring;
+  await createExternalRewriteResponse({
+    route: {
+      ...route,
+      path: pathWithQueryString
+    },
     req,
     res,
-    platformClient,
     body
-  );
+  });
 };
 
 const staticRequest = async (
@@ -413,7 +428,5 @@ export const defaultHandler = async ({
     );
   }
 
-  const external: ExternalRoute = route;
-  const { path } = external;
-  return await externalRewrite(req, res, path, platformClient);
+  return await externalRewrite(req, res, route);
 };
