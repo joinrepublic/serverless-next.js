@@ -96,8 +96,6 @@ class Builder {
     this.dotNextDir = path.join(this.nextConfigDir, ".next");
     this.serverlessDir = path.join(this.dotNextDir, "serverless");
 
-    console.warn("buildOptions", buildOptions);
-
     this.outputDir = outputDir;
     if (buildOptions) {
       this.buildOptions = buildOptions;
@@ -296,7 +294,6 @@ class Builder {
       join(this.serverlessDir, "pages/api")
     );
 
-    console.log("buildDefaultLambda:buildManifest", buildManifest);
     return Promise.all([
       this.copyTraces(buildManifest, DEFAULT_LAMBDA_CODE_DIR),
       this.processAndCopyHandler(

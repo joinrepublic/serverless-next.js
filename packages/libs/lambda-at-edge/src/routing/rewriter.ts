@@ -65,8 +65,6 @@ export async function createExternalRewriteResponse(
   }
 
   let fetchResponse;
-  console.warn("createExternalRewriteResponse:reqHeaders", reqHeaders);
-
   if (body) {
     const decodedBody = Buffer.from(body, "base64").toString("utf8");
 
