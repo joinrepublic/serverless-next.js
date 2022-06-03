@@ -1,6 +1,6 @@
 {
   "name": "@sls-next/serverless-component",
-  "version": "3.8.0-alpha.0-republic",
+  "version": "3.8.0-alpha.0-republic.2",
   "description": "Serverless Next.js powered by Serverless Components",
   "main": "./serverless.js",
   "types": "dist/component.d.ts",
