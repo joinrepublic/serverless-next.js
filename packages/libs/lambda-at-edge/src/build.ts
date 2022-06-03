@@ -21,6 +21,7 @@ import { prepareBuildManifests } from "@sls-next/core";
 import { NextConfig } from "@sls-next/core";
 import { NextI18nextIntegration } from "@sls-next/core/dist/build/third-party/next-i18next";
 import normalizePath from "normalize-path";
+import { loadCustomRequestHeaders } from "./load-custom-headers";
 
 export const DEFAULT_LAMBDA_CODE_DIR = "default-lambda";
 export const API_LAMBDA_CODE_DIR = "api-lambda";
@@ -738,8 +739,12 @@ class Builder {
       assetIgnorePatterns,
       separateApiLambda,
       useV2Handler,
-      customRequestHeaders
+      customRequestHeaders: rawCustomRequestHeaders
     } = Object.assign(defaultBuildOptions, this.buildOptions);
+
+    const customRequestHeaders = loadCustomRequestHeaders(
+      rawCustomRequestHeaders
+    );
 
     await Promise.all([
       this.cleanupDotNext(cleanupDotNext),
