@@ -93,6 +93,9 @@ class Builder {
     this.nextStaticDir = path.resolve(nextStaticDir ?? nextConfigDir);
     this.dotNextDir = path.join(this.nextConfigDir, ".next");
     this.serverlessDir = path.join(this.dotNextDir, "serverless");
+
+    console.warn("buildOptions", buildOptions);
+
     this.outputDir = outputDir;
     if (buildOptions) {
       this.buildOptions = buildOptions;
@@ -291,6 +294,7 @@ class Builder {
       join(this.serverlessDir, "pages/api")
     );
 
+    console.log("buildDefaultLambda:buildManifest", buildManifest);
     return Promise.all([
       this.copyTraces(buildManifest, DEFAULT_LAMBDA_CODE_DIR),
       this.processAndCopyHandler(
@@ -732,7 +736,8 @@ class Builder {
       cleanupDotNext,
       assetIgnorePatterns,
       separateApiLambda,
-      useV2Handler
+      useV2Handler,
+      customRequestHeaders
     } = Object.assign(defaultBuildOptions, this.buildOptions);
 
     await Promise.all([
@@ -813,7 +818,8 @@ class Builder {
       enableHTTPCompression,
       logLambdaExecutionTimes,
       regenerationQueueName,
-      disableOriginResponseHandler
+      disableOriginResponseHandler,
+      customRequestHeaders
     };
     const imageBuildManifest = {
       ...imageManifest,

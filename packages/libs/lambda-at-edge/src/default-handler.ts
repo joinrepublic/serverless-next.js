@@ -292,7 +292,12 @@ const handleOriginRequest = async ({
 
   const external: ExternalRoute = route;
   const { path } = external;
-  return externalRewrite(event, manifest.enableHTTPCompression, path);
+  return externalRewrite(
+    event,
+    manifest.enableHTTPCompression,
+    path,
+    manifest.customRequestHeaders
+  );
 };
 
 const handleOriginResponse = async ({

@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { OriginRequestEvent } from "../types";
+import { OriginRequestEvent, Header } from "../types";
 import lambdaAtEdgeCompat from "@sls-next/next-aws-cloudfront";
 import { CloudFrontResultResponse } from "aws-lambda";
 
@@ -44,7 +44,8 @@ export async function createExternalRewriteResponse(
   customRewrite: string,
   req: IncomingMessage,
   res: ServerResponse,
-  body?: string
+  body?: string,
+  customRequestHeaders?: Header[]
 ): Promise<void> {
   const { default: fetch } = await import("node-fetch");
 
@@ -52,12 +53,20 @@ export async function createExternalRewriteResponse(
   const reqHeaders: any = {};
   Object.assign(reqHeaders, req.headers);
 
+  if (customRequestHeaders) {
+    customRequestHeaders.forEach((header) => {
+      reqHeaders[header.key] = header.value;
+    });
+  }
+
   // Delete host header otherwise request may fail due to host mismatch
   if (reqHeaders.hasOwnProperty("host")) {
     delete reqHeaders.host;
   }
 
   let fetchResponse;
+  console.warn("createExternalRewriteResponse:reqHeaders", reqHeaders);
+
   if (body) {
     const decodedBody = Buffer.from(body, "base64").toString("utf8");
 
@@ -88,11 +97,13 @@ export async function createExternalRewriteResponse(
 export const externalRewrite: (
   event: OriginRequestEvent,
   enableHTTPCompression: boolean | undefined,
-  rewrite: string
+  rewrite: string,
+  customRequestHeaders?: Header[]
 ) => Promise<CloudFrontResultResponse> = async (
   event: OriginRequestEvent,
   enableHTTPCompression: boolean | undefined,
-  rewrite: string
+  rewrite: string,
+  customRequestHeaders
 ) => {
   const request = event.Records[0].cf.request;
   const { req, res, responsePromise } = lambdaAtEdgeCompat(
@@ -105,7 +116,8 @@ export const externalRewrite: (
     rewrite + (request.querystring ? "?" : "") + request.querystring,
     req,
     res,
-    request.body?.data
+    request.body?.data,
+    customRequestHeaders
   );
   return await responsePromise;
 };
