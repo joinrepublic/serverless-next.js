@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { OriginRequestEvent, Header } from "../types";
+import { OriginRequestEvent, CustomHeader } from "../types";
 import lambdaAtEdgeCompat from "@sls-next/next-aws-cloudfront";
 import { CloudFrontResultResponse } from "aws-lambda";
 
@@ -45,7 +45,7 @@ export async function createExternalRewriteResponse(
   req: IncomingMessage,
   res: ServerResponse,
   body?: string,
-  customRequestHeaders?: Header[]
+  customRequestHeaders?: CustomHeader[]
 ): Promise<void> {
   const { default: fetch } = await import("node-fetch");
 
@@ -98,7 +98,7 @@ export const externalRewrite: (
   event: OriginRequestEvent,
   enableHTTPCompression: boolean | undefined,
   rewrite: string,
-  customRequestHeaders?: Header[]
+  customRequestHeaders?: CustomHeader[]
 ) => Promise<CloudFrontResultResponse> = async (
   event: OriginRequestEvent,
   enableHTTPCompression: boolean | undefined,

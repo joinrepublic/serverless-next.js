@@ -7,7 +7,8 @@ import {
   OriginRequestDefaultHandlerManifest,
   OriginRequestApiHandlerManifest,
   RoutesManifest,
-  OriginRequestImageHandlerManifest
+  OriginRequestImageHandlerManifest,
+  CustomHeader
 } from "./types";
 import pathToPosix from "@sls-next/core/dist/build/lib/pathToPosix";
 import normalizeNodeModules from "@sls-next/core/dist/build/lib/normalizeNodeModules";
@@ -52,7 +53,7 @@ type BuildOptions = {
   separateApiLambda?: boolean;
   disableOriginResponseHandler?: boolean;
   useV2Handler?: boolean;
-  customRequestHeaders?: { key: string; value: string }[];
+  customRequestHeaders?: CustomHeader[];
 };
 
 const defaultBuildOptions = {

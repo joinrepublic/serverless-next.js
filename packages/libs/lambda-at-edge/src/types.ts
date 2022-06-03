@@ -8,7 +8,7 @@ export {
   ImageConfig,
   ImagesManifest
 } from "@sls-next/core/dist/module/build/types";
-export { RoutesManifest, Header } from "@sls-next/core/dist/module/types";
+export { RoutesManifest, CustomHeader } from "@sls-next/core/dist/module/types";
 
 export type OriginRequestApiHandlerManifest = ApiManifest & {
   enableHTTPCompression?: boolean;
