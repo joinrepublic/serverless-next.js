@@ -20,6 +20,11 @@ export const loadCustomRequestHeaders = (
   for (const header of headers) {
     const invalidHeaderParts: string[] = [];
 
+    if (header === undefined || typeof header !== "object") {
+      invalidHeaderParts.push(`invalid header ${JSON.stringify(header)}`);
+      continue;
+    }
+
     if (typeof header.key !== "string") {
       invalidHeaderParts.push(`invalid key "${header.key}"`);
     }
