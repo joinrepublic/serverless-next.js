@@ -1,5 +1,4 @@
 import {
-  Header,
   NextStaticFileRoute,
   PerfLogger,
   PreRenderedManifest as PrerenderManifestType
