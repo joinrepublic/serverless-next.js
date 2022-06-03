@@ -93,6 +93,7 @@ export type BuildOptions = {
   separateApiLambda?: boolean;
   disableOriginResponseHandler?: boolean;
   useV2Handler?: boolean;
+  customRequestHeaders?: { key: string; value: string }[];
 };
 
 export type LambdaType =

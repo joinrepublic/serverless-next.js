@@ -1,4 +1,5 @@
 import {
+  Header,
   NextStaticFileRoute,
   PerfLogger,
   PreRenderedManifest as PrerenderManifestType
@@ -47,12 +48,18 @@ const createExternalRewriteResponse = async (
   customRewrite: string,
   req: IncomingMessage,
   res: ServerResponse,
-  platformClient: PlatformClient,
-  body?: string
+  body?: string,
+  customRequestHeaders?: Header[]
 ): Promise<void> => {
   // Set request headers
   const reqHeaders: any = {};
   Object.assign(reqHeaders, req.headers);
+
+  if (customRequestHeaders) {
+    customRequestHeaders.forEach((header) => {
+      reqHeaders[header.key] = header.value;
+    });
+  }
 
   // Delete host header otherwise request may fail due to host mismatch
   if (reqHeaders.hasOwnProperty("host")) {
@@ -90,7 +97,7 @@ const externalRewrite = async (
   req: IncomingMessage,
   res: ServerResponse,
   rewrite: string,
-  platformClient: PlatformClient
+  customRequestHeaders?: Header[]
 ): Promise<void> => {
   const querystring = req.url?.includes("?") ? req.url?.split("?") : "";
   let body = "";
@@ -102,8 +109,8 @@ const externalRewrite = async (
     rewrite + (querystring ? "?" : "") + querystring,
     req,
     res,
-    platformClient,
-    body
+    body,
+    customRequestHeaders
   );
 };
 
@@ -415,5 +422,5 @@ export const defaultHandler = async ({
 
   const external: ExternalRoute = route;
   const { path } = external;
-  return await externalRewrite(req, res, path, platformClient);
+  return await externalRewrite(req, res, path, manifest.customRequestHeaders);
 };

@@ -2,7 +2,7 @@
 import { IncomingHttpHeaders, IncomingMessage, ServerResponse } from "http";
 
 export type Header = {
-  key?: string;
+  key: string;
   value: string;
 };
 
@@ -69,6 +69,7 @@ export type Manifest = {
     [key: string]: string;
   };
   trailingSlash?: boolean;
+  customRequestHeaders?: Header[];
 };
 
 export type ApiManifest = Manifest & {

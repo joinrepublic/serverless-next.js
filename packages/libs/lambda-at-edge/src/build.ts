@@ -52,6 +52,7 @@ type BuildOptions = {
   separateApiLambda?: boolean;
   disableOriginResponseHandler?: boolean;
   useV2Handler?: boolean;
+  customRequestHeaders?: { key: string; value: string }[];
 };
 
 const defaultBuildOptions = {
