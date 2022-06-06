@@ -7,7 +7,8 @@ import {
   OriginRequestDefaultHandlerManifest,
   OriginRequestApiHandlerManifest,
   RoutesManifest,
-  OriginRequestImageHandlerManifest
+  OriginRequestImageHandlerManifest,
+  CustomHeader
 } from "./types";
 import pathToPosix from "@sls-next/core/dist/build/lib/pathToPosix";
 import normalizeNodeModules from "@sls-next/core/dist/build/lib/normalizeNodeModules";
@@ -20,6 +21,7 @@ import { prepareBuildManifests } from "@sls-next/core";
 import { NextConfig } from "@sls-next/core";
 import { NextI18nextIntegration } from "@sls-next/core/dist/build/third-party/next-i18next";
 import normalizePath from "normalize-path";
+import { loadCustomRequestHeaders } from "./load-custom-headers";
 
 export const DEFAULT_LAMBDA_CODE_DIR = "default-lambda";
 export const API_LAMBDA_CODE_DIR = "api-lambda";
@@ -52,6 +54,7 @@ type BuildOptions = {
   separateApiLambda?: boolean;
   disableOriginResponseHandler?: boolean;
   useV2Handler?: boolean;
+  customRequestHeaders?: CustomHeader[];
 };
 
 const defaultBuildOptions = {
@@ -92,6 +95,7 @@ class Builder {
     this.nextStaticDir = path.resolve(nextStaticDir ?? nextConfigDir);
     this.dotNextDir = path.join(this.nextConfigDir, ".next");
     this.serverlessDir = path.join(this.dotNextDir, "serverless");
+
     this.outputDir = outputDir;
     if (buildOptions) {
       this.buildOptions = buildOptions;
@@ -731,8 +735,13 @@ class Builder {
       cleanupDotNext,
       assetIgnorePatterns,
       separateApiLambda,
-      useV2Handler
+      useV2Handler,
+      customRequestHeaders: rawCustomRequestHeaders
     } = Object.assign(defaultBuildOptions, this.buildOptions);
+
+    const customRequestHeaders = loadCustomRequestHeaders(
+      rawCustomRequestHeaders
+    );
 
     await Promise.all([
       this.cleanupDotNext(cleanupDotNext),
@@ -812,7 +821,8 @@ class Builder {
       enableHTTPCompression,
       logLambdaExecutionTimes,
       regenerationQueueName,
-      disableOriginResponseHandler
+      disableOriginResponseHandler,
+      customRequestHeaders
     };
     const imageBuildManifest = {
       ...imageManifest,

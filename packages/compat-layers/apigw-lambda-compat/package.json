@@ -1,6 +1,6 @@
 {
   "name": "@sls-next/next-aws-lambda",
-  "version": "3.8.0-alpha.0-republic",
+  "version": "3.8.0-alpha.0-republic.2",
   "description": "Compat layer between next.js serverless page and AWS Lambda",
   "files": [
     "lib/**",

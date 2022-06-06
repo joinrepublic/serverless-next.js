@@ -1,5 +1,5 @@
 {
-  "version": "3.8.0-alpha.0-republic",
+  "version": "3.8.0-alpha.0-republic.2",
   "npmClient": "yarn",
   "useWorkspaces": true,
   "command": {

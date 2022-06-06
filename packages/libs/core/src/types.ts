@@ -6,6 +6,11 @@ export type Header = {
   value: string;
 };
 
+export type CustomHeader = {
+  key: string;
+  value: string;
+};
+
 export type Headers = {
   [key: string]: Header[];
 };
@@ -69,6 +74,7 @@ export type Manifest = {
     [key: string]: string;
   };
   trailingSlash?: boolean;
+  customRequestHeaders?: CustomHeader[];
 };
 
 export type ApiManifest = Manifest & {
