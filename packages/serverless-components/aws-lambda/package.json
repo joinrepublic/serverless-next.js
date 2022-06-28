@@ -1,6 +1,6 @@
 {
   "name": "@sls-next/aws-lambda",
-  "version": "3.8.0-alpha.0-republic.2",
+  "version": "3.8.0-alpha.0-republic.3",
   "main": "serverless.js",
   "keywords": [
     "AWS",

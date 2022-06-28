@@ -1,6 +1,6 @@
 {
   "name": "@sls-next/lambda",
-  "version": "3.8.0-alpha.0-republic.2",
+  "version": "3.8.0-alpha.0-republic.3",
   "description": "Code to build and deploy for Lambda + API Gateway",
   "main": "dist/index.js",
   "module": "dist/module/index.js",
