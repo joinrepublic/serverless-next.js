@@ -54,6 +54,7 @@ import { createRedirectResponse } from "@sls-next/core/dist/module/route/redirec
 import { redirectByPageProps } from "@sls-next/core/dist/module/handle/redirect";
 import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
 import getStream from "get-stream";
+import { normalizeSetCookieHeaders } from "./headers/normalize-set-cookie-headers";
 
 const basePath = RoutesManifestJson.basePath;
 
@@ -128,6 +129,7 @@ export const handler = async (
   // Remove blacklisted headers
   if (response.headers) {
     removeBlacklistedHeaders(response.headers);
+    normalizeSetCookieHeaders(response.headers);
   }
 
   const tHandlerEnd = now();
