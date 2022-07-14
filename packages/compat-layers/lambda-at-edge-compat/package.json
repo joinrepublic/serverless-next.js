@@ -1,6 +1,6 @@
 {
   "name": "@sls-next/next-aws-cloudfront",
-  "version": "3.8.0-alpha.0-republic.3",
+  "version": "3.8.0-alpha.0-republic.4",
   "description": "Compat layer for running next.js apps in Lambda@Edge",
   "main": "next-aws-cloudfront.js",
   "types": "next-aws-cloudfront.d.ts",
