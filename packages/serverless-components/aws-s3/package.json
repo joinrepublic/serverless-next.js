@@ -1,6 +1,6 @@
 {
   "name": "@sls-next/aws-s3",
-  "version": "3.8.0-alpha.0-republic.3",
+  "version": "3.8.0-alpha.0-republic.4",
   "main": "./serverless.js",
   "scripts": {
     "lint": "eslint . --fix --cache",
